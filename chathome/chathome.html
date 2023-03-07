@@ -12,32 +12,42 @@
   <div class="container-fluid">
     <h1 class="text-center mb-5">Chat App</h1>
     <div class="row">
-      <div class=" mx-auto col-md-8">
+      <div class=" mx-auto p-2 col-md-4">
         <div class="card">
-          <div class="card-header">Chat</div>
+          <div class="card-header text-center">Group chats</div>
+          <div id="groupchatlist" class="card-body">
+
+              <!-- DYNAMIC GROUPS LIST -->
+            <ul id="gclist" class="list-group list-group-flush">
+           
+            </ul>
+
+          </div>
+          <div class="card-footer">
+
+            <div class="btn col-12">
+              <a href="../newgc/newgc.html" class="btn btn-primary"> Add new Group / Users</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" mx-auto p-2 col-md-8">
+        <div class="card">
+          <div id="chatTitle" class="card-header text-center">
+            Chats
+          </div>
           <div id="messageprinter" class="card-body">
             <div class="message">
               <p class="text-secondary"> Tony Joined ..</p>
             </div>
-            <div class="message">
-              <p class="text-secondary"> Steve Joined ..</p>
-            </div>
-            <div class="message">
-              <p class="text-secondary"> Tony : Hey Steve!</p>
-            </div>
-            <div class="message">
-              <p class="text-secondary"> Steve : Hey Tony.</p>
-            </div>
-            <div class="message">
-              <p class="text-secondary"> Steve : Hey Tony.</p>
-            </div>
+            
           </div>
           <form onsubmit="postchat(event)">
             <div class="card-footer">
               <div class="input-group">
                 <input id="chatinput" type="text" class="form-control" placeholder="Type your message...">
                 <div class="input-group-append">
-                  <button class="btn btn-primary" type="submit">Send</button>
+                  <button name ="sendbutton" id =""class="btn btn-primary" type="submit">Send</button>
                 </div>
               </div>
             </div>

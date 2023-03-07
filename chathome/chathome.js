@@ -7,10 +7,16 @@ async function postchat(event){
 try{
    
     const chat  = document.getElementById("chatinput").value;
-    
+
+   
+   const groupid =  document.getElementsByName("sendbutton")[0].id
+
+   
 
     const chatObj = {
-        chat    }
+        chat,
+        groupid
+        }
     // console.log(signinObj)
 
     await axios.post("http://localhost:1000/chat/postchat",chatObj, {headers :{ "Authorization": localStorage.getItem("token") }})
@@ -33,68 +39,106 @@ try{
 
 
 
-window.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener("DOMContentLoaded", async (event) => {
 
-    localStorage.removeItem("recentChats")
+    event.preventDefault();
+
+   
+
+    if(localStorage.getItem("token") == null || undefined){
+        window.location.href ='../signin/signin.html';
+    }
+ 
+    
     const response =await axios.get("http://localhost:1000/chat/getchat", {headers :{ "Authorization": localStorage.getItem("token") }})
-    .then(response => {return (response.data.chat)})   
+    .then(response => {return (response.data)})   
    
-    
-    let validator = response.length
-    
-    const ls = localStorage.getItem("recentChats");
-    
-    if(ls != null){
-        printMessages(ls)
-  }else if( ls == null){
-    savetoLS(validator,response)
-    printMessages(response)
 
-  }
+    const chatbox = response.chats
+    printgroupslist()
+     printMessages(chatbox);
+     
 
+    //  const groupchats =  response.groupchats
+    //  localStorage.setItem("groupchats",JSON.stringify(groupchats))
 
     
-
-
-    
-
-   setInterval(async ()=>{
-    console.log("printing at each second")
-const checker = await axios.get("http://localhost:1000/chat/getchat", {headers :{ "Authorization": localStorage.getItem("token") }})
-.then(response => {return (response.data.chat)})   
-   
-if(checker.length > validator){
-
-  printMessages(checker.slice(validator))
-  validator = checker.length;
-  savetoLS(checker.length,checker)
-}
-},1000)
-
-
-
+    // const groupchatList = JSON.parse(localStorage.getItem("groupchats"));
 })
 
-
- function printMessages(response){
     
-    for( let i =0; i< response.length;i++){
-        const parent = document.getElementById("messageprinter")
-        parent.innerHTML+= ` <div class="message">
-                                 <p class="text-secondary">${response[i].userLogin.name} : ${response[i].chat}</p>
-                             </div>`
+
+//    setInterval(async ()=>{
+//     console.log("printing at each second")
+// const chats = JSON.parse(localStorage.getItem("chats"))
+
+// const lastmessageid= chats[chats.length-1].id
+// console.log(lastmessageid)
+
+
+// const response = await axios.get(`http://localhost:1000/chat/getchat?id=${lastmessageid}&`, {headers :{ "Authorization": localStorage.getItem("token") }})
+// .then(response =>  (response.data)) 
+
+// console.log(response.chats)
+//     if (response.chats != undefined){
+//         const chatbox = response.chats
+        
+// if(chatbox.length>200){
+//     localStorage.setItem("chats",JSON.stringify(chatbox.slice(chatbox.length-200)))
+// } else if( chatbox.length < 200){
+   
+//     localStorage.setItem("chats",JSON.stringify(chatbox))
+// }
+
+// printMessages();
+
+//     }},1000)
+
+
+
+
+
+ function printMessages(){
+    console.log("entering pm")
+    const chats = JSON.parse(localStorage.getItem("chats"))
+    console.log(chats)
+    
+    const parent = document.getElementById("messageprinter")
+
+    parent.innerHTML="";
+    for( let i =0; i< chats.length;i++){
+       
+        
+        if(chats[i].groupid ==  document.getElementsByName("sendbutton")[0].id){
+            parent.innerHTML+= ` <div class="message">
+            <p class="text-secondary">${chats[i].userLogin.name} : ${chats[i].chat}</p>
+        </div>`
+        } else{
+            continue;
+        }
+       
     }
 }
 
 
-function savetoLS(chatLength, chatArr){
 
-    const recentChatLength = chatLength-10;
-    
-    const recentChat = chatArr.slice(recentChatLength)
 
-    console.log(JSON.stringify(recentChat))
+ function printgroupslist(){
+    const chats = JSON.parse(localStorage.getItem("groupchats"))
+    // console.log(chats)
+
+    if(chats != undefined){
+        document.getElementsByName("sendbutton")[0].id = chats[0].groupid;
+        for (let i=0; i<chats.length;i++){
+            document.getElementById("gclist").innerHTML+=`<li class="list-group-item "><a href="#" id ="${chats[i].groupid}" onclick="getGroupId(event)" >${chats[i].groupname}</a></li>`;
+        }
+        }
+    }
+
+   function getGroupId(event){
+    // var text = link.innerHTML;
    
-  localStorage.setItem("recentChats",JSON.stringify(recentChat) )
-    
-}
+    document.getElementsByName("sendbutton")[0].id = event.target.id
+    printMessages();
+        return event.target.id
+   }
