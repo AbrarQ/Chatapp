@@ -11,20 +11,22 @@ async function newgc(event) {
 
 
 
-    const response = await axios.post("http://localhost:1000/group/addnewgc", groupData, { headers: { "Authorization": localStorage.getItem("token") } })
-        .then(response => { return response })
-        .catch(err => document.getElementById("groupchatCreationresult").innerText = err.response.data.message)
+    await axios.post("http://localhost:1000/group/addnewgc", groupData, { headers: { "Authorization": localStorage.getItem("token") } })
+        .then(response => { 
 
-   console.log(response)
-    localStorage.setItem("groupchats", JSON.stringify(response.data.list));
-    document.getElementById("groupchatCreationresult").innerText = response.data.message;
-    document.getElementById("gclist").innerHTML += `<li id ="${response.data.currentgroup.groupid}"class="list-group-item "><a href ="../chathome/chathome.html">${response.data.currentgroup.groupname}</a></li></form>`
+            console.log(response.data)
+            localStorage.setItem("groupchats", JSON.stringify(response.data.grouplist));
+            document.getElementById("groupchatCreationresult").innerText = response.data.message;
+            document.getElementById("gclist").innerHTML += `<li id ="${response.data.currentgroup.groupid}"class="list-group-item "><a href ="../chathome/chathome.html">${response.data.currentgroup.groupname}</a></li></form>`
+            document.getElementById("groupname").value ="";
+            document.getElementById("grouptag").value ="";
+
+        
+        })
+        
+
+  
 }
-
-
-
-
-
 
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -34,10 +36,17 @@ window.addEventListener("DOMContentLoaded", async () => {
         window.location.href = '../signin/signin.html';
     }
 
+    await axios.get("http://localhost:1000/group/getlist",{ headers: { "Authorization": localStorage.getItem("token") } })
+        .then(response => { console.log(response.data)
+            localStorage.setItem("groupchats", JSON.stringify(response.data.grouplist));})
 
-    printgroupslist()
 
-    getdropdown();
+    if(localStorage.getItem("groupchats")!= undefined || null){
+        printgroupslist()
+
+        getdropdown();  
+    }
+   
 })
 
 async function printgroupslist() {
@@ -76,6 +85,8 @@ function getdropdown() {
 
 async function adduser(event) {
     event.preventDefault();
+
+    console.log("Adding User")
     const groupindex = document.getElementById("dropdown").selectedIndex
 
     const groupid =document.getElementById("dropdown")[groupindex].id
@@ -92,11 +103,54 @@ async function adduser(event) {
     }
 
     console.log(userObj)
-
-const response = await axios.post("http://localhost:1000/group/adduser", userObj)
+    if(userObj.groupid!= ""  &&  userObj.username!="" && userObj.phonenumber!="" ){
+const response = await axios.post("http://localhost:1000/group/adduser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
 .then(response => response)
 
  document.getElementById("useraddingresult").innerText = response.data.message
+    } else {
+        document.getElementById("useraddingresult").innerText = "Cannot Send Empty Request"
+        console.log(" empty")
+    }
+
+
+
+
+
+}
+
+
+async function deleteuser (event) {
+    event.preventDefault();
+
+    console.log("Deleting User")
+    const groupindex = document.getElementById("dropdown").selectedIndex
+
+    const groupid =document.getElementById("dropdown")[groupindex].id
+    const username = document.getElementById("username").value;
+    const phonenumber = document.getElementById("phonenumber").value;
+
+
+
+
+    const userObj = {
+        groupid,
+        username,
+        phonenumber
+    }
+
+    console.log(userObj)
+    if(userObj.groupid!= ""  &&  userObj.username!="" && userObj.phonenumber!="" ){
+        const response = await axios.post("http://localhost:1000/group/deleteuser", userObj,{ headers: { "Authorization": localStorage.getItem("token") } })
+        .then(response => response)
+        
+         document.getElementById("useraddingresult").innerText = response.data.message
+    } else {
+        document.getElementById("useraddingresult").innerText = "Cannot Send Empty Request"
+        console.log(" empty")
+    }
+
+
 
 
 

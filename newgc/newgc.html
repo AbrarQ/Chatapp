@@ -15,6 +15,7 @@
 </head>
 
 <body>
+  
   <div class="container-fluid">
     <h1 class="text-center mb-5">Chat App</h1>
     <div class="row">
@@ -70,7 +71,7 @@
           <div id="user2groups" class="card-body mx-auto col-8">
 
             <!-- ADDING USER TO A GROUP -->
-            <form onsubmit="adduser(event)">
+            <form >
 
               <select id="dropdown" class="form-select p-2 mb-3 input-group-text">
                 <option selected>Select the Groups</option>
@@ -89,10 +90,19 @@
                 <input type="number" id="phonenumber" class="form-control" aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default" required>
               </div>
+              <div class="row"> 
+                <div class="btn p-1 col-12">
+                  <button type="submit" onclick="makeadmin(event)"  class="btn btn-primary mx-auto"> Make him admin</button><br>
+                </div>
+                <div class="btn p-1 col-12">
+                  <button type="submit" onclick="adduser(event)"  class="btn btn-primary mx-auto"> Add users</button><br>
+                </div>
 
-              <div class="btn col-12">
-                <button type="submit" class="btn btn-primary mx-auto"> Add users</button><br><br>
+                <div class="btn p-1 col-12">
+                  <button  type="submit" onclick="deleteuser(event)"  class="btn btn-primary mx-auto"> Delete users</button><br><br>
+                </div>
               </div>
+              
             </form>
             <p class="text-center fst-italic  mx-auto" id="useraddingresult"></p>
           </div>

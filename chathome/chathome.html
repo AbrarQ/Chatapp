@@ -5,7 +5,9 @@
   <title>Chat App</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 
 <body>
@@ -26,20 +28,33 @@
           <div class="card-footer">
 
             <div class="btn col-12">
-              <a href="../newgc/newgc.html" class="btn btn-primary"> Add new Group / Users</a>
+              <a href="../newgc/newgc.html" class="btn btn-primary"> Manage Group / Users</a>
+              
             </div>
           </div>
         </div>
       </div>
-      <div class=" mx-auto p-2 col-md-8">
+
+
+
+
+      <div class="mx-auto p-2 col-md-8" id="toggle">
         <div class="card">
+
           <div id="chatTitle" class="card-header text-center">
-            Chats
+
+            <div class="row">  <div class ="col-6 mx-auto">Chats</div>  
+              <div class="col-3">
+                <a class="btn btn-primary btn-sm " onclick="toggleClass()"> Manage</a>
+              </div></div>
+            
           </div>
+
+          
           <div id="messageprinter" class="card-body">
-            <div class="message">
+            <!-- <div class="message">
               <p class="text-secondary"> Tony Joined ..</p>
-            </div>
+            </div> -->
             
           </div>
           <form onsubmit="postchat(event)">
@@ -54,6 +69,19 @@
           </form>
         </div>
       </div>
+
+
+      <div class="mx-auto col-md-4 p-2" id ="managesection">  </div>
+       
+     
+ 
+
+
+
+
+
+
+
     </div>
   </div>
 
@@ -63,6 +91,7 @@
     integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./chathome.js"></script>
+  
 
 </body>
 

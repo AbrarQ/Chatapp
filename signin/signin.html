@@ -15,6 +15,8 @@
 </head>
 
 <body>
+   
+    
 
     <div class="position-relative">
         <form onsubmit="signin(event)">
@@ -22,17 +24,14 @@
 
             <div class=" mb-3 col-4 mx-auto">
                 <label for="InputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">
-                    We'll never share your email with anyone else.</div>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+               
             </div>
           
             <div class="mb-3 col-4 mx-auto">
                 <label for="InputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password">
-                <div id="passwordblock" class="form-text">
-                    No birthday dates or phone numbers...
-                </div>
+                <input type="password" class="form-control" id="password" required>
+               
             </div>
             <div class="mb-3 col-4 mx-auto">
                 <button type="submit" class="btn btn-primary mx-auto">Submit</button>
@@ -41,7 +40,7 @@
         </form>
         <div class=" mb-10 col-lg-4 mx-auto">
             <a href ="../signup/signup.html"> <button type="submit" class="btn btn-secondary mx-auto">New user - Sign up</button></a>
-        </div>
+        </div><br>
         <div class="text mb-3 col-4 mx-auto">
             <p  class="fst-italic" id="signinresult"></p>
         </div>
